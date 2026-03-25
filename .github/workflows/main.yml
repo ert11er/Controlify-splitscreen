@@ -15,17 +15,19 @@ jobs:
     - name: Set up JDK 25
       uses: actions/setup-java@v4
       with:
-        java-version: '25' # Burayı 25 yaparak gereksinimi karşılıyoruz
-        distribution: 'oracle' # Java 25 şu an en sağlıklı Oracle veya temurin ile bulunur
+        java-version: '25'
+        distribution: 'oracle' # Java 25 için şu an en güvenli dağıtım
         cache: gradle
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: ./gradlew build --no-daemon # Daemon bazen hata verebilir, kapatmak daha temizdir
+      # --no-daemon kullanarak bellek hatalarını ve sürüm çakışmalarını önlüyoruz
+      run: ./gradlew build --no-daemon 
 
     - name: Upload Artifact
+      if: success() # Sadece başarılı olursa dosyayı yükle
       uses: actions/upload-artifact@v4
       with:
         name: Controlify-Splitscreen-Jar
