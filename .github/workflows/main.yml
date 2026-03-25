@@ -1,0 +1,37 @@
+name: Manual Java CI Build
+
+on:
+  push:
+    branches: [ "feature-splitscreen" ]
+  workflow_dispatch: # Bu satır manuel çalıştırma butonunu aktif eder
+    inputs:
+      build_type:
+        description: 'Derleme Türü'
+        required: true
+        default: 'build'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin' # En stabil JDK dağıtımıdır
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build with Gradle
+      run: ./gradlew build
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Controlify-Splitscreen-Jar
+        path: build/libs/*.jar
