@@ -1,6 +1,7 @@
 {
   "$schema": "https://codeberg.org/stonecutter/stonecutter/raw/branch/0.7/tools/settings-schema.json",
   "vcs": "1.21.11-fabric",
+  "versions": [""],
   "branches": {
     "splitscreen": [
       "1.21.11-fabric:1.21.11"
